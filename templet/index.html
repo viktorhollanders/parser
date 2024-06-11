@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>pdf templet file</title>
+  </head>
+  <body>
+    <header>
+      <p class="time-stamp"><%= time-stamp %></p>
+      <h1 class="title">Ronja Ræningjadóttir</h1>
+    </header>
+    <main>
+      <section class="child">
+        <h2 class="sub-title">Barn</h2>
+        <div class="item">
+          <p class="item-lable">Fullt nafn:</p>
+          <p class="item-content"><%= childe-full-name%></p>
+        </div>
+        <div class="item">
+          <p class="item-lable">Kennitala:</p>
+          <p class="item-content"><%= childe-ssn %></p>
+        </div>
+        <div class="item">
+          <p class="item-lable">Aldur:</p>
+          <p class="item-content"><%= childe-age %></p>
+        </div>
+        <div class="item">
+          <p class="item-lable">Annað sem þarf að koma fram:</p>
+          <p class="item-content"><%= childe-about %></p>
+        </div>
+        <div class="item">
+          <p class="item-lable">Tengist barnið einhverjum:</p>
+          <p class="item-content"><%= childe-connections %></p>
+        </div>
+        <div class="item">
+          <p class="item-lable">Hefur gist:</p>
+          <p class="item-content"><%= sleep-over %></p>
+        </div>
+      </section>
+
+      <section class="section gurdian-1">
+        <h2 class="sub-title">Forráðamaður 1</h2>
+        <div class="item">
+          <p class="item-lable">Fullt nafn:</p>
+          <p class="item-content"><%= gurdian-one-name %></p>
+        </div>
+        <div class="item">
+          <p class="item-lable">Símanúmer:</p>
+          <p class="item-content"><%= gurdian-one-phone%></p>
+        </div>
+        <div class="item">
+          <p class="item-lable">Netfang:</p>
+          <p class="item-content"><%= gurdian-one-email%></p>
+        </div>
+      </section>
+
+      <section class="section gurdian-2">
+        <h2 class="sub-title">Forráðamaður 2</h2>
+        <div class="item">
+          <p class="item-lable">Fullt nafn:</p>
+          <p class="item-content"><%= gurdian-two-name %></p>
+        </div>
+        <div class="item">
+          <p class="item-lable">Símanúmer:</p>
+          <p class="item-content"><%= gurdian-two-phone %></p>
+        </div>
+        <div class="item">
+          <p class="item-lable">Netfang:</p>
+          <p class="item-content"><%= gurdian-two-email %></p>
+        </div>
+      </section>
+
+      <section class="section gurdian-3">
+        <h2 class="sub-title">Forráðamaður 3</h2>
+        <div class="item">
+          <p class="item-lable">Fullt nafn:</p>
+          <p class="item-content"><%= gurdian-three-name %></p>
+        </div>
+        <div class="item">
+          <p class="item-lable">Símanúmer:</p>
+          <p class="item-content"><%= gurdian-three-phone %></p>
+        </div>
+        <div class="item">
+          <p class="item-lable">Netfang:</p>
+          <p class="item-content"><%= gurdian-three-email %></p>
+        </div>
+      </section>
+
+      <section class="section Insurance">
+        <h2 class="sub-title">Tryggingar</h2>
+        <div class="item">
+          <p class="item-lable">
+            Mér er kunnugt að Söguheimar tryggi ekki srkáð barn/börn á meðan að það/þau eru í
+            sumarbúðunum:
+          </p>
+          <p class="item-content"></p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
