@@ -1,12 +1,12 @@
+# Python imports
 import csv
 import os
 import shutil
-import time
 
+# package imports
 import PyPDF2
 from jinja2 import Environment, FileSystemLoader
-from tqdm import tqdm, trange
-from tqdm.auto import tqdm
+from tqdm import tqdm
 from weasyprint import CSS, HTML
 
 path_to_css = "./template/style.css"
@@ -66,47 +66,77 @@ def create_directory(directory_name):
     return directory_name
 
 
-def convert_html_to_pdf(content, css, directory, number):
+def convert_html_to_pdf(content, directory, number, css=""):
+    """This function converts html templates to pdf"""
     pdf_filename = f"{directory}/file_{number}.pdf"
-    HTML(string=content).write_pdf(target=pdf_filename, stylesheets=[CSS(f"{css}")])
+
+    if css:
+        stylesheets = [CSS(css)]
+    else:
+        stylesheets = None
+
+    HTML(string=content).write_pdf(target=pdf_filename, stylesheets=stylesheets)
 
 
 def generate_html_template(mapped_list, template, html_dir, pdf_dir):
+    """This function generates html templates"""
     number_of_items = len(mapped_list)
-    progress_bar = tqdm(total=number_of_items)
 
-    for row_id, row in enumerate(mapped_list):
-        # Render the template with the current data
-        html_content = template.render(mapped_data=[row])
+    with tqdm(total=number_of_items) as progress_bar:
+        try:
+            for row_id, row in enumerate(mapped_list):
+                # Render the template with the current data
+                content = template.render(mapped_data=[row])
 
-        # Save the rendered HTML to a file
-        html_filename = f"{html_dir}/file_{row_id}.html"
-        with open(html_filename, "w") as f:
-            f.write(html_content)
+                # Save the rendered HTML to a file
+                file_name = f"{html_dir}/file_{row_id}.html"
+                with open(file_name, "w") as file:
+                    file.write(content)
 
-        convert_html_to_pdf(html_content, path_to_css, pdf_dir, row_id)
+                # Convert HTML to PDF
+                convert_html_to_pdf(content, pdf_dir, row_id, path_to_css)
 
-        progress_bar.update(1)
-        time.sleep(0.1)
-    progress_bar.close()
+                # Update the progress bar
+                progress_bar.update(1)
+        except Exception as e:
+            print(f"Error processing row {row_id}: {e}")
 
 
-def combine_files(directory_path, output_path):
-    """Combines all pdf files in a given directory"""
+def combine_files(directory_path, output_path, filename):
+    """Combines all pdf files in a given directory into a single pdf file"""
     merger = PyPDF2.PdfMerger()
 
-    # Iterate through all files in the directory
-    for filename in os.listdir(directory_path):
-        if filename.endswith(".pdf"):
-            filepath = os.path.join(directory_path, filename)
-            merger.append(filepath)
+    try:
+        # Get list of PDF files in the directory and sort them
+        pdf_files = sorted(f for f in os.listdir(directory_path) if f.endswith(".pdf"))
 
-    file_name = str(input("Enter a file name: ").strip() or "combined")
-    print()
-    output_file_path = os.path.join(output_path, file_name + ".pdf")
-    merger.write(output_file_path)
-    merger.close()
-    return file_name
+        if not pdf_files:
+            print("No PDF files found in the directory.")
+            return None
+
+        # Append each pdf file to the merge
+        for file in pdf_files:
+            filepath = os.path.join(directory_path, file)
+            try:
+                merger.append(filepath)
+            except Exception as e:
+                print(f"Could not add {file} to the merger: {e}")
+
+        if not filename.strip():
+            filename = "parsed"
+
+        output_filename = filename + ".pdf"
+        output_file_path = os.path.join(output_path, output_filename)
+        print(f"Output file will be saved to: {output_file_path}")
+
+        # Write the combined PDF to the output file
+        merger.write(output_file_path)
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+    finally:
+        merger.close()
 
 
 def remove_folder(output_dir):
@@ -122,8 +152,8 @@ def remove_folder(output_dir):
 
 
 def main():
-    file_name = get_file_name()
-    data = parse_csv(file_name)
+    file = get_file_name()
+    data = parse_csv(file)
     template = create_template()
 
     html_dir_name = "./html"
@@ -135,16 +165,14 @@ def main():
 
     # Paths to directories
     input_directory = "./pdf"
-    output_directory = os.path.dirname(file_name) + "/"
+    output_directory = os.path.dirname(file) + "/"
 
-    file = combine_files(input_directory, output_directory)
+    output_file_name = input("Enter a file name: ").strip()
+    combine_files(input_directory, output_directory, output_file_name)
 
-    # remove html files and folder
+    # Remove unused directories
     remove_folder(html_dir)
-    # remove pdf files and folder
     remove_folder(pdf_dir)
-
-    print(f"{file} exported to {output_directory}")
 
 
 if __name__ == "__main__":
