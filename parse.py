@@ -1,12 +1,15 @@
 import csv
 import os
 import shutil
+import time
 
 import PyPDF2
 from jinja2 import Environment, FileSystemLoader
+from tqdm import tqdm, trange
+from tqdm.auto import tqdm
 from weasyprint import CSS, HTML
 
-mapped_data = []
+mapped_list = []
 
 file_name = input("Enter path to file: ").strip()
 
@@ -39,7 +42,7 @@ with open(csv_file, mode="r") as file:
                 "Mér er kunnugt að Söguheimar tryggir ekki skráð barn/börn á meðan það/þau eru í sumarbúðunum."
             ],
         }
-        mapped_data.append(mapped_row)
+        mapped_list.append(mapped_row)
 
 
 # Create jinja2 environment
@@ -52,23 +55,30 @@ pdf_output_dir = "./pdf"
 os.makedirs(html_output_dir, exist_ok=True)
 os.makedirs(pdf_output_dir, exist_ok=True)
 
-for item in mapped_data:
+
+number_of_items = len(mapped_list)
+progress_bar = tqdm(total=number_of_items)
+
+for row in mapped_list:
     # Render the template with the current data
-    html_content = template.render(mapped_data=[item])
+    html_content = template.render(mapped_data=[row])
 
     # Save the rendered HTML to a file
-    html_filename = f"{html_output_dir}/file_{item['id']}.html"
+    html_filename = f"{html_output_dir}/file_{row['id']}.html"
     with open(html_filename, "w") as f:
         f.write(html_content)
 
     # Convert the HTML content to a PDF using WeasyPrint
-    pdf_filename = f"{pdf_output_dir}/file_{item['id']}.pdf"
+    pdf_filename = f"{pdf_output_dir}/file_{row['id']}.pdf"
     HTML(string=html_content).write_pdf(
         target=pdf_filename, stylesheets=[CSS("./template/style.css")]
     )
+    progress_bar.update(1)
+    time.sleep(0.1)
+progress_bar.close()
 
 
-def remove_folder(output_dir, type=""):
+def remove_folder(output_dir):
     """Clean up files and remove the directory"""
     try:
         for filename in os.listdir(output_dir):
@@ -76,7 +86,6 @@ def remove_folder(output_dir, type=""):
             if os.path.isfile(file_path):
                 os.unlink(file_path)
         shutil.rmtree(output_dir)
-        print(f"{type} files and folder removed")
     except Exception as e:
         print(f"Error removing HTML files or folder: {e}")
 
@@ -107,12 +116,8 @@ output_directory = os.path.dirname(file_name) + "/"
 file = combine_files(input_directory, output_directory)
 
 # remove html files and folder
-html_type = "HTML"
-remove_folder(html_output_dir, html_type)
-
-
+remove_folder(html_output_dir)
 # remove pdf files and folder
-pdf_type = "PDF"
-remove_folder(pdf_output_dir, pdf_type)
+remove_folder(pdf_output_dir)
 
 print(f"{file} exported to {output_directory}")
