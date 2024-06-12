@@ -1,41 +1,19 @@
-# Node.js
-node_modules/
+# Python
+venv/
+*.pyc
+__pycache__/
 
-# Dependency directories
-/bower_components/
-/jspm_packages/
-
-# Distribution directories
-/dist/
-/build/
-
-# Logs
-/logs/
-*.log
-
-# Webpack
-webpack.config.js
-
-# Project specific
-*.csv
-/output/
-
-# Environment variables
+# Environment-specific files
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
 
-# Coverage directory used by tools like istanbul/jest
-coverage/
 
-# Temporary files
-tmp/
-temp/
+# Output files
+output/
+
+# VSCode
+.vscode/
 
 # Operating system files
-
 ## macOS
 .DS_Store
 .AppleDouble
@@ -56,17 +34,4 @@ Desktop.ini
 
 # Editor directories and files
 .idea/
-.vscode/
 *.swp
-
-# Optional npm cache directory
-.npm
-
-# Optional REPL history
-.node_repl_history
-
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variables file
-.env

@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+:root {
+  --font-family: 'Inter', sans-serif;
+
+  /* FONT SIZES*/
+  --font-size-xsm: 10px;
+  --font-size-sm: 12px;
+  --font-size-md: 16px;
+  --font-size-lg: 24px;
+
+  /* SPACING */
+  --spacing-xs: 12px;
+  --spacing-sm: 16px;
+  --spacing-md: 20px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+
+@media print {
+  body {
+    font-family: var(--font-family);
+    margin: 20mm;
+    font-size: var(--font-size-sm);
+  }
+
+  .title {
+    font-size: var(--font-size-lg);
+  }
+
+  .sub-title {
+    font-size: var(--font-size-md);
+  }
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .section {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .label {
+    font-weight: 600;
+    margin-right: var(--spacing-xs);
+  }
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF-template</title>
+  </head>
+  <body>
+    {% for item in mapped_data %}
+    <header class="header">
+      <h1 class="title">{{ item.story }}</h1>
+    </header>
+    <main>
+      <section class="section child">
+        <h2 class="sub-title">Barn</h2>
+        <p class="item"><span class="label">Fullt nafn: </span>{{ item.childe_name }}</p>
+        <p class="item"><span class="label">Kennitala: </span>{{ item.childe_ssn }}</p>
+        <p class="item"><span class="label">Aldur: </span>{{ item.childe_age }}</p>
+        <p class="item">
+          <span class="lable">Annað sem þarf að koma fram: </span>{{ item.childe_other }}
+        </p>
+        <p class="item">
+          <span class="label">Tengist barnið einhverjum: </span>{{ item.childe_friends }}
+        </p>
+      </section>
+
+      <section class="section guardian-1">
+        <h2 class="sub-title">Forráðamaður 1</h2>
+        <p class="item"><span class="label">Fullt nafn: </span>{{ item.guardian_one_name }}</p>
+        <p class="item"><span class="label">Símanúmer: </span>{{ item.guardian_one_phone }}</p>
+        <p class="item"><span class="label">Netfang: </span>{{ item.guardian_one_email }}</p>
+      </section>
+
+      <section class="section guardian-2">
+        <h2 class="sub-title">Forráðamaður 2</h2>
+        <p class="item"><span class="label">Fullt nafn: </span>{{ item.guardian_two_name }}</p>
+        <p class="item"><span class="label">Símanúmer: </span>{{ item.guardian_two_phone }}</p>
+        <p class="item"><span class="label">Netfang: </span>{{ item.guardian_two_email }}</p>
+      </section>
+
+      <section class="section guardian-3">
+        <h2 class="sub-title">Forráðamaður 3</h2>
+        <p class="item"><span class="label">Fullt nafn: </span>{{ item.guardian_three_name }}</p>
+        <p class="item"><span class="label">Símanúmer: </span>{{ item.guardian_three_phone }}</p>
+        <p class="item"><span class="label">Netfang: </span>{{ item.guardian_three_email }}</p>
+      </section>
+
+      <section class="section Insurance">
+        <h2 class="sub-title">Tryggingar</h2>
+        <p class="item">
+          Mér er kunnugt að Söguheimar tryggi ekki srkáð barn/börn á meðan að það/þau eru í
+          sumarbúðunum: {{ item.concent }}
+        </p>
+      </section>
+    </main>
+    {% endfor %}
+  </body>
+</html>
