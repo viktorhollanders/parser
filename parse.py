@@ -47,8 +47,8 @@ env = Environment(loader=FileSystemLoader("."))
 template = env.get_template("template/template.html")
 
 # Ensure output directories exist
-html_output_dir = "./output/html"
-pdf_output_dir = "./output/pdf"
+html_output_dir = "./html"
+pdf_output_dir = "./pdf"
 os.makedirs(html_output_dir, exist_ok=True)
 os.makedirs(pdf_output_dir, exist_ok=True)
 
@@ -100,7 +100,7 @@ def combine_files(directory_path, output_path):
 
 
 # Paths to directories
-input_directory = "./output/pdf"
+input_directory = "./pdf"
 output_directory = os.path.dirname(file_name) + "/"
 
 
